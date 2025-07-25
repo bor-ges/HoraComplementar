@@ -1,12 +1,18 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+// Importe o plugin do Flowbite
+import flowbite from 'flowbite/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
+        // Seus caminhos existentes
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+
+        // ADICIONE O CAMINHO DO FLOWBITE AQUI
+        './node_modules/flowbite/**/*.js'
     ],
 
     theme: {
@@ -17,5 +23,10 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+
+        // ADICIONE O PLUGIN DO FLOWBITE AQUI
+        flowbite
+    ],
 };
