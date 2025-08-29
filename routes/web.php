@@ -1,31 +1,31 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+// routes/web.php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AtividadeController; // Importar o controller
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// A rota do dashboard continua sendo a principal após o login
+Route::get('/dashboard', [AtividadeController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
+
+// A galeria é uma rota customizada
+Route::get('/meus-certificados', [AtividadeController::class, 'gallery'])
+    ->middleware(['auth'])->name('atividades.gallery');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ROUTE RESOURCE: Cria as rotas para create, store, show, edit, update, destroy
+    // Usamos 'except' para não recriar a rota 'index' que já usamos para o dashboard.
+    Route::resource('atividades', AtividadeController::class)->except(['index']);
 });
 
 require __DIR__.'/auth.php';
