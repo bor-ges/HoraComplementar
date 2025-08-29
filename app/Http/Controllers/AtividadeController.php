@@ -51,7 +51,6 @@ class AtividadeController extends Controller
     public function store(SalvarAtividadeRequest $request)
     {
         $dadosValidados = $request->validated();
-
         $caminho = $request->file('certificado')->store('certificados', 'public');
 
         Auth::user()->atividades()->create([
@@ -61,6 +60,7 @@ class AtividadeController extends Controller
             'horas_declaradas' => $dadosValidados['horas_declaradas'],
             'data_atividade' => $dadosValidados['data_atividade'],
             'caminho_certificado' => $caminho,
+            'status' => 'pendente', // <-- Linha fundamental!
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Atividade registrada com sucesso!');

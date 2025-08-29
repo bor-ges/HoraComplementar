@@ -140,59 +140,32 @@
         {{-- SEÇÃO DA TABELA DE DADOS (DATA TABLE) --}}
         <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Meus Registros de Horas</h2>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
                 <tr>
-                    <th scope="col" class="px-6 py-3">Tipo de Atividade</th>
-                    <th scope="col" class="px-6 py-3">Data</th>
-                    <th scope="col" class="px-6 py-3">Horas Contabilizadas</th>
-                    <th scope="col" class="px-6 py-3">Status</th>
-                    <th scope="col" class="px-6 py-3">Ações</th>
+                    <th>Tipo de Atividade</th>
+                    <th>Data</th>
+                    <th>Horas Contabilizadas</th>
+                    <th>Status</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{-- Exemplo de linha 1 --}}
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Palestra sobre Inteligência Artificial
-                    </th>
-                    <td class="px-6 py-4">20/07/2025</td>
-                    <td class="px-6 py-4">10</td>
-                    <td class="px-6 py-4">
-                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprovado</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver Detalhes</a>
-                    </td>
-                </tr>
-                {{-- Exemplo de linha 2 --}}
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Curso Online de AWS
-                    </th>
-                    <td class="px-6 py-4">15/07/2025</td>
-                    <td class="px-6 py-4">40</td>
-                    <td class="px-6 py-4">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Pendente</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver Detalhes</a>
-                    </td>
-                </tr>
-                {{-- Exemplo de linha 3 --}}
-                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Monitoria de Programação
-                    </th>
-                    <td class="px-6 py-4">10/06/2025</td>
-                    <td class="px-6 py-4">30</td>
-                    <td class="px-6 py-4">
-                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Reprovado</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver Detalhes</a>
-                    </td>
-                </tr>
+                @foreach ($activities as $atividade)
+                    <tr>
+                        <td>{{ $atividade->tipo }}</td>
+                        <td>{{ \Carbon\Carbon::parse($atividade->data_atividade)->format('d/m/Y') }}</td>
+                        <td>{{ $atividade->horas_declaradas }}</td>
+                        <td>
+                    <span class="@if($atividade->status == 'aprovado') text-green-600 @elseif($atividade->status == 'pendente') text-yellow-600 @else text-red-600 @endif">
+                        {{ ucfirst($atividade->status) }}
+                    </span>
+                        </td>
+                        <td>
+                            <a href="{{ route('atividades.show', $atividade->id) }}" class="text-blue-600 underline">Ver Detalhes</a>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
