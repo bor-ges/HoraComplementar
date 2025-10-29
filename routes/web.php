@@ -2,6 +2,7 @@
 
 // routes/web.php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AtividadeController; // Importar o controller
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::middleware('auth')->group(function () {
     // ROUTE RESOURCE: Cria as rotas para create, store, show, edit, update, destroy
     // Usamos 'except' para não recriar a rota 'index' que já usamos para o dashboard.
     Route::resource('atividades', AtividadeController::class)->except(['index']);
+
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
 });
 
 require __DIR__.'/auth.php';
