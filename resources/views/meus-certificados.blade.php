@@ -25,69 +25,31 @@
         <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Meus Certificados Enviados</h2>
 
         {{-- GRID DE CERTIFICADOS --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-            {{-- Exemplo de Card 1 (Aprovado) --}}
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    {{-- Use uma imagem real do certificado aqui --}}
-                    <img class="rounded-t-lg" src="https://placehold.co/600x400/e2e8f0/e2e8f0" alt="placeholder de certificado" />
-                </a>
-                <div class="p-5">
-                    <a href="#">
-                        <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Palestra sobre Inteligência Artificial</h5>
-                    </a>
-                    <div class="flex justify-between items-center mb-4">
-                        <p class="text-sm text-gray-700 dark:text-gray-400">10 Horas</p>
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprovado</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6">
+            @foreach ($activities as $atividade)
+                <div class="bg-white shadow rounded-lg overflow-hidden flex flex-col">
+                    <div class="px-6 py-4">
+                        <h3 class="font-semibold text-lg mb-2">{{ $atividade->nome }}</h3>
+                        <p class="text-sm text-gray-600 mb-1">Tipo: {{ $atividade->tipo }}</p>
+                        <p class="text-sm text-gray-600 mb-1">Data: {{ \Carbon\Carbon::parse($atividade->data_atividade)->format('d/m/Y') }}</p>
+                        <p class="text-sm text-gray-600 mb-1">Horas: {{ $atividade->horas_declaradas }}</p>
+                        <span class="inline-block px-3 py-1 text-xs font-bold rounded
+                    @if($atividade->status == 'aprovado') bg-green-100 text-green-700
+                    @elseif($atividade->status == 'pendente') bg-yellow-100 text-yellow-700
+                    @else bg-red-100 text-red-700 @endif">
+                    {{ ucfirst($atividade->status) }}
+                </span>
                     </div>
-                    <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Ver Detalhes
-                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/></svg>
-                    </a>
-                </div>
-            </div>
-
-            {{-- Exemplo de Card 2 (Pendente) --}}
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg" src="https://placehold.co/600x400/e2e8f0/e2e8f0" alt="placeholder de certificado" />
-                </a>
-                <div class="p-5">
-                    <a href="#">
-                        <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Curso Online de AWS</h5>
-                    </a>
-                    <div class="flex justify-between items-center mb-4">
-                        <p class="text-sm text-gray-700 dark:text-gray-400">40 Horas</p>
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Pendente</span>
+                    <div class="px-6 py-2 border-t flex justify-between items-center">
+                        @if($atividade->caminho_certificado)
+                            <a href="{{ asset('storage/' . $atividade->caminho_certificado) }}" target="_blank" class="text-blue-600 hover:underline text-sm">Ver Certificado</a>
+                        @else
+                            <span class="text-gray-500 text-sm">Não enviado</span>
+                        @endif
+                        <a href="{{ route('atividades.show', $atividade->id) }}" class="text-indigo-600 hover:underline text-sm">Detalhes</a>
                     </div>
-                    <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Ver Detalhes
-                    </a>
                 </div>
-            </div>
-
-            {{-- Exemplo de Card 3 (Reprovado) --}}
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg" src="https://placehold.co/600x400/e2e8f0/e2e8f0" alt="placeholder de certificado" />
-                </a>
-                <div class="p-5">
-                    <a href="#">
-                        <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Monitoria de Programação</h5>
-                    </a>
-                    <div class="flex justify-between items-center mb-4">
-                        <p class="text-sm text-gray-700 dark:text-gray-400">30 Horas</p>
-                        <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Reprovado</span>
-                    </div>
-                    <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Ver Detalhes
-                    </a>
-                </div>
-            </div>
-
-            {{-- Você pode repetir os cards com um @foreach do Laravel --}}
-
+            @endforeach
         </div>
     </div>
 </div>

@@ -1,5 +1,13 @@
-@extends('layouts.app');
-@section('content');
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Horas Complementares</title>
+    {{-- A diretiva @vite carrega o CSS e JS compilados, incluindo Tailwind e Flowbite --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
 
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -115,46 +123,28 @@
 
 <div class="p-4 sm:ml-64">
     <div class="p-4 mt-14">
-        {{-- SEÇÃO DOS CARDS DE ESTATÍSTICAS --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            {{-- Card 1: Total de Horas --}}
-            <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Total de Horas Registradas</h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400 text-3xl">120 <span class="text-lg">horas</span></p>
-            </div>
-            {{-- Card 2: Informações do Curso --}}
-            <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Análise e Desenv. de Sistemas</h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400 text-3xl">80 <span class="text-lg">horas restantes</span></p>
-            </div>
-        </div>
-
         {{-- SEÇÃO DA TABELA DE DADOS (DATA TABLE) --}}
-        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Meus Registros de Horas</h2>
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Solicitações de Horas Complementares</h2>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                 <tr>
+                    <th>Nome</th>
                     <th>Tipo de Atividade</th>
                     <th>Data</th>
                     <th>Horas Contabilizadas</th>
-                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($activities as $atividade)
+                @foreach ($atividades as $atividade)
                     <tr>
+                        <td>{{ $atividade->nome }}</td>
                         <td>{{ $atividade->tipo }}</td>
                         <td>{{ \Carbon\Carbon::parse($atividade->data_atividade)->format('d/m/Y') }}</td>
                         <td>{{ $atividade->horas_declaradas }}</td>
                         <td>
-                    <span class="@if($atividade->status == 'aprovado') text-green-600 @elseif($atividade->status == 'pendente') text-yellow-600 @else text-red-600 @endif">
-                        {{ ucfirst($atividade->status) }}
-                    </span>
-                        </td>
-                        <td>
-                            <a href="{{ route('atividades.show', $atividade->id) }}" class="text-blue-600 underline">Ver Detalhes</a>
+                            <a href="{{ route('admin.edit', $atividade->id) }}" class="text-blue-600 underline">Editar</a>
                         </td>
                     </tr>
                 @endforeach
@@ -172,4 +162,6 @@
 
     </div>
 </div>
-@endsection
+
+</body>
+</html>
