@@ -18,9 +18,9 @@ Route::get('/dashboard', [AtividadeController::class, 'index'])
 
 // A galeria é uma rota customizada
 Route::get('/meus-certificados', [AtividadeController::class, 'gallery'])
-    ->middleware(['auth'])->name('atividades.gallery');
+    ->middleware(['auth'])->name('meus-certificados');
 
-Route::get('/registro-horas', [AtividadeController::class, 'register'])->middleware(['auth'])->name('atividades.register');
+Route::get('/registro-horas', [AtividadeController::class, 'register'])->middleware(['auth'])->name('registrar-horas');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
