@@ -8,12 +8,9 @@ export default {
     darkMode: 'class',
 
     content: [
-        // Seus caminhos existentes
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-
-        // ADICIONE O CAMINHO DO FLOWBITE AQUI
         './node_modules/flowbite/**/*.js'
     ],
 
@@ -28,7 +25,6 @@ export default {
     plugins: [
         forms,
 
-        // ADICIONE O PLUGIN DO FLOWBITE AQUI
         flowbite
     ],
 };

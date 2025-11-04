@@ -27,6 +27,8 @@ class User extends Authenticatable
         'email',
         'password',
         'total_horas',
+        'role',
+        'curso',
     ];
 
     /**
@@ -48,4 +50,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }
