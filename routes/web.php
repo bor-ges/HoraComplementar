@@ -26,9 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('atividades', AtividadeController::class)->except(['index']);
-
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
 });
 
 //GRUPO DE ROTAS DO MIDDLEWARE ADMIN

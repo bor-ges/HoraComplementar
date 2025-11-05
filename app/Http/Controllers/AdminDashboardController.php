@@ -11,11 +11,11 @@ class AdminDashboardController extends Controller
     public function index(Request $request)
     {
         // Pega atividades pendentes, já carregando a info do usuário (aluno)
-        $query = Atividade::with('user')->where('status', 'pendente');
+        $query = Atividade::with('usuario')->where('status', 'pendente');
 
         // Lógica do filtro de curso que você pediu
         if ($request->filled('curso')) {
-            $query->whereHas('user', function ($q) use ($request) {
+            $query->whereHas('usuario', function ($q) use ($request) {
                 $q->where('curso', $request->curso);
             });
         }
@@ -37,6 +37,10 @@ class AdminDashboardController extends Controller
      */
     public function aprovar(Atividade $atividade)
     {
+        $user = User::where('id', $atividade->usuario_id)->first();
+        $user->total_horas += $atividade->horas_declaradas;
+        $user->update(['total_horas' => $user->total_horas]);
+
         $atividade->update(['status' => 'aprovado']);
         return back()->with('success', 'Atividade aprovada com sucesso.');
     }

@@ -45,13 +45,13 @@
                             <tbody>
                             @forelse($atividadesPendentes as $atividade)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="px-6 py-4">{{ $atividade->user->name }}</td>
-                                    <td class="px-6 py-4">{{ $atividade->user->curso ?? 'N/I' }}</td>
+                                    <td class="px-6 py-4">{{ $atividade->nome }}</td>
+                                    <td class="px-6 py-4">{{ $atividade->usuario->curso ?? 'N/I' }}</td>
                                     <td class="px-6 py-4">{{ $atividade->descricao }}</td>
-                                    <td class="px-6 py-4">{{ $atividade->horas_gastas }}</td>
+                                    <td class="px-6 py-4">{{ $atividade->horas_declaradas }}</td>
                                     <td class="px-6 py-4">
                                         {{-- Garante que o link de storage funcione --}}
-                                        <a href="{{ Storage::url($atividade->arquivo_comprovante) }}" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        <a href="{{ Storage::url($atividade->caminho_certificado) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline open-pdf-modal">
                                             Ver Arquivo
                                         </a>
                                     </td>
@@ -76,7 +76,47 @@
                     </div>
 
                 </div>
+                <div id="pdfModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 hidden">    
+                    <div class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg h-5/6 relative" style="width: 80vw; max-width: 1280px;">
+                        <button id="closePdfModal" class="absolute -top-3 -right-3 text-white bg-red-600 rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold hover:bg-red-700 transition">&times;</button>
+                        <iframe id="pdfFrame" src="" class="w-full h-full" frameborder="0">
+                            Seu navegador não suporta iframes.
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const pdfModal = document.getElementById('pdfModal');
+        const closePdfModal = document.getElementById('closePdfModal');
+        const pdfFrame = document.getElementById('pdfFrame');
+        
+        const pdfLinks = document.querySelectorAll('.open-pdf-modal');
+
+        pdfLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const pdfUrl = this.getAttribute('href');
+                pdfFrame.setAttribute('src', pdfUrl); 
+                pdfModal.classList.remove('hidden');
+            });
+        });
+        function closeModal() {
+            pdfModal.classList.add('hidden');
+            pdfFrame.setAttribute('src', '');
+        }
+
+        closePdfModal.addEventListener('click', closeModal);
+
+        pdfModal.addEventListener('click', function(event) {
+            if (event.target === pdfModal) {
+                closeModal();
+            }
+        });
+    });
+</script>
