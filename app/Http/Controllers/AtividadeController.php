@@ -73,8 +73,6 @@ class AtividadeController extends Controller
     {
         // Garante que um usuário não possa ver a atividade de outro
         $this->authorize('view', $atividade);
-        // (Você precisará criar uma Policy para isso funcionar, ou usar a verificação manual com Auth::id())
-
         return view('atividades.show', compact('atividade'));
     }
 

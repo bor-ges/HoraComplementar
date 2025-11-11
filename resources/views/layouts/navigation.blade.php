@@ -21,16 +21,13 @@
 </head>
 <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
 
-{{-- A Navbar do Breeze já está aqui por padrão, mas vamos usar a nossa customizada --}}
-@include('layouts.navigation')
-
 {{-- Incluindo a nossa nova Sidebar --}}
-@include('layouts.sidebar')
+
 
 <!-- Page Content -->
 <main class="p-4 sm:ml-64">
     <div class="p-4 mt-14">
-        {{ $slot }}
+        {{-- {{ $slot }} --}}
     </div>
 </main>
 
