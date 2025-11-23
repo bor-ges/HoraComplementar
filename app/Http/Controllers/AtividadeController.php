@@ -83,11 +83,7 @@ class AtividadeController extends Controller
     public function gallery()
     {
         $atividades = Auth::user()->atividades()->orderBy('data_atividade', 'desc')->get();
-        return view('meus-certificados', ['activities' => $atividades]); // Mantendo 'activities' para a view
+        return view('meus-certificados', ['atividades' => $atividades]);
     }
 
-    // MÉTODOS DE RESOURCE QUE PODEM SER IMPLEMENTADOS NO FUTURO
-//    public function edit(Atividade $atividade) { /* TODO: Retornar view de edição */ }
-//    public function update(Request $request, Atividade $atividade) { /* TODO: Lógica para atualizar */ }
-//    public function destroy(Atividade $atividade) { /* TODO: Lógica para deletar */ }
 }
