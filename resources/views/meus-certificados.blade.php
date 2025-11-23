@@ -20,10 +20,10 @@
                         </h3>
 
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                            Tipo: {{ $atividade->tipo_atividade }}
+                            Tipo: {{ $atividade->tipo }}
                         </p>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                            Horas: {{ $atividade->horas_gastas }}
+                            Horas: {{ $atividade->horas_declaradas }}
                         </p>
 
                         {{-- Badge de Status (com cores para dark mode) --}}
@@ -42,9 +42,9 @@
 
                     {{-- Rodapé do Card --}}
                     <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                        @if($atividade->arquivo_comprovante)
+                        @if($atividade->caminho_certificado)
                             {{-- Usamos Storage::url() para pegar o link público do arquivo --}}
-                            <a href="{{ Storage::url($atividade->arquivo_comprovante) }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
+                            <a href="{{ Storage::url($atividade->caminho_certificado) }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
                                 Ver Certificado
                             </a>
                         @else
